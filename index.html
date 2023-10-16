@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Getter</title>
+    <style>
+        /* Estilo para o cabeçalho */
+        h1 {
+            text-align: center;
+            color: #FFFFF0;
+        }
+
+        /* Estilo para o formulário de upload */
+        form {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        /* Estilo para os botões */
+        input[type="submit"],
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Estilo para a tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, td {
+            border: 1px solid #333;
+        }
+
+         td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Estilo para a área de texto */
+        textarea {
+            width: 10%;
+            height: 76px;
+            padding: 5px;
+            margin: 5px 0;
+        }
+
+        /* Estilo para os botões de ação */
+            #btn-copiar-dados {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+         #btn-excluir-protocolos {
+    margin: 10px;
+    padding: 15px 30px; /* Ajuste o padding para aumentar o tamanho */
+    font-size: 18px; /* Ajuste o tamanho da fonte para aumentar o texto */
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+ #btn-copiar-dados {
+    margin: 10px;
+    padding: 15px 30px; /* Ajuste o padding para aumentar o tamanho */
+    font-size: 18px; /* Ajuste o tamanho da fonte para aumentar o texto */
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+        /* Estilo para o cabeçalho da tabela */
+    table th {
+        background-color: #007BFF; /* Cor de fundo para o cabeçalho */
+        color: #000; /* Cor do texto no cabeçalho */
+    }
+
+    /* Estilo para o botão */
+        #status-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        /* Estilo para o status "Em Uso" */
+        .in-use {
+            background-color: #FF0000; /* Vermelho */
+            color: #FFFFFF; /* Texto branco */
+        }
+        /* Estilo para o status "Livre" */
+        .free {
+            background-color: #00FF00; /* Verde */
+            color: #FFFFFF; /* Texto preto */
+        }
+
+ /* Estilo base para o botão */
+       #status-button {
+    position: fixed;
+    top: 10px; /* Define a distância do topo */
+    right: 10px; /* Define a distância da direita */
+    padding: 10px 20px;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+    background-color: #FFFFFF;
+}
+
+
+        /* Estilo para o botão "Em Uso" */
+        #status-button.in-use {
+            background-color: #FF0000; /* Vermelho quando "Em Uso" */
+        }
+
+        /* Estilo para o botão "Livre" */
+        #status-button.free {
+            background-color: #00FF00; /* Verde quando "Livre" */
+        }
+         body {
+        background-color: #5a53f7; /* ou hsl(243,91%,65%) ou rgb(90,83,247) */
+    }
+
+    form{
+        color: white;
+        font-size: 20px;
+    }
+
+    #tabela {
+    display: none;
+    background-color: #fff; /* Define o fundo como branco */
+}
+
+/* Define a classe para a div que contém a imagem */
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Estilize a imagem como desejado */
+.logo img {
+    width: 150px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção original da imagem */
+    padding: 10px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center; /* Centralize os elementos horizontalmente */
+    align-items: center; /* Centralize os elementos verticalmente */
+    text-align: center;
+    position: relative;
+}
+
+#contador-linhas {
+    color: #fff;
+    font-size: 30px;
+    position: fixed;
+    bottom: 10px; /* Ajuste conforme necessário para a distância do rodapé */
+    left: 10px; /* Ajuste conforme necessário para a distância da esquerda */
+}
+
+#protocolos {
+    display: flex;
+    justify-content: center; /* Centralize os elementos horizontalmente */
+    align-items: center; /* Centralize os elementos verticalmente */
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#textarea-protocolos{
+    width: 280px;
+    height: 155px;
+}
+}
+
+
+#btn-excluir-protocolos,
+#btn-copiar-dados {
+    margin: 10px;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+    </style>
+
+</head>
+<body>
+    <div class="logo">
+        <img src="https://alaresinternet.com.br/wp-content/themes/alares/assets/images/template/logo.png" alt="Logo">
+    </div>
+<h1>Getter - BO0</h1>
+<form id="upload-form" action="processar_upload.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="arquivo_csv" accept=".csv">
+    <input type="submit" value="Enviar">
+</form>
+<!-- Campo de entrada para inserir os Protocolos (um por linha) -->
+<div id="buttons">
+<button id="status-button">Livre</button>
+</div>
+
+<div id="protocolos">
+<textarea id="textarea-protocolos" placeholder="Insira os protocolos a serem excluídos (um por linha)"></textarea>
+<button id="btn-excluir-protocolos">
+    <img src="lixeira.png" alt="Excluir históricos">
+</button>
+
+
+<button id="btn-copiar-dados">
+<img src="copia.png" alt="copiar históricos">
+</button>
+</div>
+<button onclick="window.location.href='Prioridades.html'">Prioridades</button>
+
+<div id="tabela"></div>
+<div id="contador-linhas">Número de OS: </div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Configure o Firebase com suas próprias credenciais
+       const firebaseConfig = {
+  apiKey: "AIzaSyBPbDGs_6DFYd0wpYvI2FnSfY_zbIFLcQQ",
+  authDomain: "grabber-7b186.firebaseapp.com",
+  databaseURL: "https://grabber-7b186-default-rtdb.firebaseio.com",
+  projectId: "grabber-7b186",
+  storageBucket: "grabber-7b186.appspot.com",
+  messagingSenderId: "551175206118",
+  appId: "1:551175206118:web:90bef5ac0391542490f727",
+  measurementId: "G-LZ6M3JN53L"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Obtém a referência para o botão no HTML
+        const button = document.getElementById("status-button");
+
+        // Função para alternar o status
+       function toggleStatus() {
+        const currentState = button.textContent;
+        const newState = currentState === "Livre" ? "Atualizando" : "Livre";
+        updateStatus(newState);
+
+        // Adicione as linhas de código aqui
+        button.classList.add(newState.toLowerCase());
+        button.classList.remove((currentState === "Livre" ? "Atualizando" : "Livre").toLowerCase());
+
+        
+        
+    }
+
+        // Função para atualizar o status no Firebase
+        function updateStatus(newState) {
+            database.ref("status").set(newState);
+        }
+
+        // Monitora as alterações no status no Firebase
+        database.ref("status").on("value", (snapshot) => {
+            const status = snapshot.val();
+            button.textContent = status;
+        });
+
+        // Inicializa o status com base no valor atual no Firebase
+        database.ref("status").once("value", (snapshot) => {
+            const status = snapshot.val();
+            button.textContent = status;
+        });
+
+        // Adiciona um ouvinte de evento de clique ao botão
+        button.addEventListener("click", toggleStatus);
+    </script>
+<script>
+    document.getElementById("upload-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("arquivo_csv", document.querySelector('input[type="file"]').files[0]);
+
+        try {
+            const response = await fetch("processar_upload.php", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                const csvData = await response.text();
+                document.getElementById("tabela").innerHTML = csvData;
+            } else {
+                console.error("Erro ao processar o arquivo CSV.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    function criarTabelaComCSV(csvData) {
+        const tabelaDiv = document.getElementById("tabela");
+        const linhas = csvData.split("\n");
+        const tabela = document.createElement("table");
+
+        for (let i = 0; i < linhas.length; i++) {
+            const colunas = linhas[i].split(";");
+            const linha = document.createElement(i === 0 ? "thead" : "tr");
+
+            for (let j = 0; j < colunas.length; j++) {
+                const celula = i === 0 ? document.createElement("th") : document.createElement("td");
+                const valor = decodeURIComponent(escape(colunas[j])); // Força a codificação
+                celula.textContent = valor;
+                linha.appendChild(celula);
+            }
+
+            tabela.appendChild(linha);
+        }
+
+        tabelaDiv.innerHTML = ""; // Limpa o conteúdo anterior
+        tabelaDiv.appendChild(tabela);
+    }
+
+    document.getElementById("btn-excluir-protocolos").addEventListener("click", () => {
+        const textareaProtocolos = document.getElementById("textarea-protocolos");
+        const protocolosParaExcluir = textareaProtocolos.value.split("\n").map(protocolo => protocolo.trim());
+
+        if (protocolosParaExcluir.length === 0) {
+            alert("Por favor, insira pelo menos um Protocolo para excluir.");
+            return;
+        }
+
+        const tabela = document.querySelector("table");
+        const linhas = tabela.querySelectorAll("tr");
+
+        for (let i = linhas.length - 1; i > 0; i--) {
+            const colunaProtocolo = linhas[i].querySelector("td:nth-child(1)"); // Suponha que o Protocolo está na primeira coluna
+            if (colunaProtocolo && protocolosParaExcluir.includes(colunaProtocolo.textContent.trim())) {
+                tabela.deleteRow(i);
+            }
+        }
+
+        // Limpa o campo de entrada dos Protocolos
+        textareaProtocolos.value = "";
+
+        alert("Protocolos excluídos da tabela.");
+    });
+
+    // Botão para copiar dados da tabela (exceto cabeçalho)
+    document.getElementById("btn-copiar-dados").addEventListener("click", () => {
+        const tabela = document.querySelector("table");
+        const linhas = tabela.querySelectorAll("tr");
+
+        let dadosCopiados = "";
+
+        for (let i = 1; i < linhas.length; i++) {
+            const colunas = linhas[i].querySelectorAll("td");
+            for (let j = 0; j < colunas.length; j++) {
+                dadosCopiados += colunas[j].textContent + "\t"; // Use um caractere de tabulação como separador
+            }
+            dadosCopiados += "\n"; // Quebra de linha entre as linhas de dados
+        }
+
+        // Copia os dados para a área de transferência
+        const textarea = document.createElement("textarea");
+        textarea.value = dadosCopiados;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        alert("Dados copiados para a área de transferência (exceto cabeçalho).");
+    });
+</script>
+
+
+
+
+<script>
+    // Função para contar as linhas na tabela
+    function contarLinhasNaTabela() {
+        const tabela = document.getElementById("tabela");
+        const linhas = tabela.querySelectorAll("tr");
+        const numeroLinhas = linhas.length - 1; // Subtrai 1 para excluir o cabeçalho
+
+        return numeroLinhas;
+    }
+
+    // Atualiza o número de linhas na página
+    function atualizarNumeroDeLinhas() {
+        const numeroLinhas = contarLinhasNaTabela();
+        const elementoContador = document.getElementById("contador-linhas");
+        elementoContador.textContent = `Número de OS: ${numeroLinhas}`;
+    }
+
+    // Chama a função de atualização inicialmente
+    atualizarNumeroDeLinhas();
+
+    // Adiciona um ouvinte de evento para atualizar o número de linhas sempre que a tabela for modificada
+    document.getElementById("tabela").addEventListener("DOMSubtreeModified", atualizarNumeroDeLinhas);
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
